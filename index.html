@@ -9,252 +9,185 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg:       #090d16;
-            --bg2:      #101520;
-            --bg3:      #181f2e;
-            --bg4:      #1f2840;
-            --border:   #232d42;
-            --text:     #e8ecf5;
-            --muted:    #68728f;
-            --accent:   #4a7feb;
-            --danger:   #e85555;
-            --success:  #34c98a;
-            --radius:   10px;
+            --bg:      #090d16;
+            --bg2:     #101520;
+            --bg3:     #181f2e;
+            --bg4:     #1f2840;
+            --border:  #232d42;
+            --text:    #e8ecf5;
+            --muted:   #68728f;
+            --accent:  #4a7feb;
+            --danger:  #e85555;
+            --success: #34c98a;
+            --radius:  10px;
         }
 
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-size: 14px;
             line-height: 1.5;
             min-height: 100vh;
         }
 
-        /* ─── SETUP SCREEN ─────────────────────────────── */
-        #setup-screen {
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .center-wrap {
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             padding: 24px;
         }
 
-        .setup-card {
+        .card {
             background: var(--bg2);
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 36px;
-            width: 100%;
-            max-width: 480px;
+            width: 100%; max-width: 420px;
         }
 
-        .setup-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-        .setup-card p { color: var(--muted); font-size: 13px; margin-bottom: 28px; line-height: 1.6; }
+        .card h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+        .card .sub { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
 
-        .setup-steps {
-            background: var(--bg3);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 24px;
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.9;
-        }
-
-        .setup-steps code {
-            background: var(--bg4);
-            color: var(--accent);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-        }
-
-        .sql-block {
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 14px;
-            font-family: 'Courier New', monospace;
-            font-size: 11.5px;
-            color: #a8b5d0;
-            line-height: 1.7;
-            margin-bottom: 24px;
-            white-space: pre;
-            overflow-x: auto;
-            position: relative;
-        }
-
-        .copy-sql {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--bg4);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 11px;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .copy-sql:hover { color: var(--text); }
-
-        /* ─── LAYOUT ────────────────────────────────────── */
-        #app { display: none; max-width: 880px; margin: 0 auto; padding: 32px 20px 80px; }
-
-        /* ─── TOP BAR ───────────────────────────────────── */
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 28px;
-        }
-
-        .topbar h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
-        .topbar-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-        .month-ctrl {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .month-btn {
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            color: var(--text);
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .month-btn:hover { background: var(--bg4); }
-
-        .month-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text);
-            min-width: 90px;
-            text-align: center;
-        }
-
-        /* ─── STATS ─────────────────────────────────────── */
-        .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 24px; }
-
-        .stat {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px;
-        }
-
-        .stat-lbl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin-bottom: 8px; }
-        .stat-val { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
-        .stat-sub { font-size: 12px; color: var(--muted); margin-top: 5px; }
-
-        /* ─── INPUT CARD ─────────────────────────────────── */
-        .input-card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .input-row { display: grid; grid-template-columns: 150px 1fr; gap: 10px; margin-bottom: 14px; }
+        .field { margin-bottom: 14px; }
 
         label {
             display: block;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            color: var(--muted);
-            margin-bottom: 5px;
+            font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.6px;
+            color: var(--muted); margin-bottom: 5px;
         }
 
-        input[type=number], input[type=text] {
+        input[type=text], input[type=password], input[type=number] {
             width: 100%;
             background: var(--bg);
             border: 1px solid var(--border);
             color: var(--text);
-            padding: 9px 12px;
+            padding: 10px 12px;
             border-radius: 7px;
-            font-size: 14px;
-            font-family: inherit;
+            font-size: 14px; font-family: inherit;
             transition: border-color 0.15s;
         }
 
         input:focus { outline: none; border-color: var(--accent); }
 
-        /* ─── TAG PICKER ─────────────────────────────────── */
-        .tag-picker { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
-
-        .tag-pill {
-            padding: 5px 13px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            border: 1.5px solid var(--border);
-            cursor: pointer;
-            transition: all 0.12s;
-            background: var(--bg3);
-            color: var(--muted);
-            user-select: none;
+        .btn {
+            width: 100%;
+            background: var(--accent); color: #fff;
+            border: none; padding: 11px;
+            border-radius: 7px; font-size: 14px;
+            font-weight: 600; cursor: pointer;
+            font-family: inherit; transition: opacity 0.15s;
+            margin-top: 4px;
         }
 
+        .btn:hover { opacity: 0.85; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-ghost {
+            width: 100%; background: var(--bg3); color: var(--muted);
+            border: none; padding: 9px; border-radius: 7px;
+            font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 8px;
+        }
+        .btn-ghost:hover { color: var(--text); }
+
+        .err { color: var(--danger); font-size: 12px; margin-top: 10px; min-height: 18px; }
+        .ok  { color: var(--success); font-size: 12px; margin-top: 10px; }
+
+        /* setup */
+        .sql-block {
+            background: var(--bg3); border: 1px solid var(--border);
+            border-radius: 8px; padding: 14px;
+            font-family: 'Courier New', monospace; font-size: 11px;
+            color: #a8b5d0; line-height: 1.7;
+            margin-bottom: 20px; white-space: pre; overflow-x: auto;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute; top: 8px; right: 8px;
+            background: var(--bg4); border: 1px solid var(--border);
+            color: var(--muted); padding: 3px 9px; border-radius: 5px;
+            font-size: 11px; cursor: pointer; font-family: inherit;
+        }
+        .copy-btn:hover { color: var(--text); }
+        .setup-note {
+            background: var(--bg3); border-radius: 8px;
+            padding: 14px 16px; font-size: 13px;
+            color: var(--muted); line-height: 1.8; margin-bottom: 20px;
+        }
+        .setup-note code {
+            background: var(--bg4); color: var(--accent);
+            padding: 1px 5px; border-radius: 3px; font-size: 11px;
+        }
+
+        /* app */
+        #app-screen { max-width: 880px; margin: 0 auto; padding: 32px 20px 80px; }
+
+        .topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 28px;
+        }
+        .topbar h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+        .topbar-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+        .month-ctrl { display: flex; align-items: center; gap: 8px; }
+        .month-btn {
+            background: var(--bg3); border: 1px solid var(--border);
+            color: var(--text); width: 30px; height: 30px;
+            border-radius: 6px; cursor: pointer; font-size: 15px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .month-btn:hover { background: var(--bg4); }
+        .month-label { font-size: 13px; font-weight: 600; min-width: 90px; text-align: center; }
+
+        .logout-btn {
+            background: none; border: 1px solid var(--border);
+            color: var(--muted); padding: 6px 12px;
+            border-radius: 6px; font-size: 12px;
+            cursor: pointer; font-family: inherit;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .logout-btn:hover { color: var(--danger); border-color: var(--danger); }
+
+        .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 24px; }
+        .stat { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+        .stat-lbl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin-bottom: 8px; }
+        .stat-val { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
+        .stat-sub { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+        .input-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
+        .input-row { display: grid; grid-template-columns: 150px 1fr; gap: 10px; margin-bottom: 14px; }
+
+        .tag-picker { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+        .tag-pill {
+            padding: 5px 13px; border-radius: 20px;
+            font-size: 12px; font-weight: 500;
+            border: 1.5px solid var(--border);
+            cursor: pointer; transition: all 0.12s;
+            background: var(--bg3); color: var(--muted); user-select: none;
+        }
         .tag-pill:hover { color: var(--text); }
         .tag-pill.selected { color: #fff; border-color: transparent; }
         .tag-pill.new-tag { border-style: dashed; }
         .tag-pill.new-tag:hover { border-color: var(--accent); color: var(--accent); }
 
-        .add-btn {
-            width: 100%;
-            margin-top: 16px;
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 11px;
-            border-radius: 7px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.15s;
-            font-family: inherit;
+        .add-tx-btn {
+            width: 100%; margin-top: 16px;
+            background: var(--accent); color: #fff;
+            border: none; padding: 11px; border-radius: 7px;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: opacity 0.15s; font-family: inherit;
         }
+        .add-tx-btn:hover { opacity: 0.85; }
+        .add-tx-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        .add-btn:hover { opacity: 0.85; }
-        .add-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-        /* ─── BREAKDOWN ──────────────────────────────────── */
         .section-hd { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
 
-        .breakdown {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            margin-bottom: 24px;
-        }
-
-        .bd-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
+        .breakdown { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+        .bd-row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid var(--border); }
         .bd-row:last-child { border-bottom: none; }
-
         .bd-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
         .bd-name { flex: 1; font-size: 13px; }
         .bd-bar-wrap { width: 90px; height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
@@ -262,178 +195,71 @@
         .bd-pct { font-size: 12px; color: var(--muted); width: 34px; text-align: right; }
         .bd-amt { font-size: 13px; font-weight: 600; width: 82px; text-align: right; }
 
-        .empty-msg {
-            padding: 32px;
-            text-align: center;
-            color: var(--muted);
-            font-size: 13px;
-        }
+        .empty-msg { padding: 32px; text-align: center; color: var(--muted); font-size: 13px; }
 
-        /* ─── TRANSACTIONS ───────────────────────────────── */
-        .tx-list {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        .tx {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 13px 16px;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.1s;
-        }
-
+        .tx-list { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+        .tx { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid var(--border); transition: background 0.1s; }
         .tx:last-child { border-bottom: none; }
         .tx:hover { background: var(--bg3); }
-
         .tx-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
         .tx-info { flex: 1; min-width: 0; }
         .tx-purpose { font-size: 14px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .tx-meta { font-size: 12px; color: var(--muted); }
-
-        .tx-badge {
-            font-size: 11px;
-            padding: 3px 9px;
-            border-radius: 12px;
-            font-weight: 500;
-            color: #fff;
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
-
+        .tx-badge { font-size: 11px; padding: 3px 9px; border-radius: 12px; font-weight: 500; color: #fff; flex-shrink: 0; white-space: nowrap; }
         .tx-amount { font-size: 14px; font-weight: 600; color: var(--danger); white-space: nowrap; margin-left: 4px; }
-
-        .del-btn {
-            background: none;
-            border: none;
-            color: var(--border);
-            cursor: pointer;
-            font-size: 14px;
-            padding: 3px 6px;
-            border-radius: 4px;
-            transition: color 0.12s, background 0.12s;
-            line-height: 1;
-            flex-shrink: 0;
-        }
-
+        .del-btn { background: none; border: none; color: var(--border); cursor: pointer; font-size: 14px; padding: 3px 6px; border-radius: 4px; transition: color 0.12s, background 0.12s; line-height: 1; flex-shrink: 0; }
         .del-btn:hover { color: var(--danger); background: rgba(232,85,85,0.1); }
 
-        /* ─── TOAST ──────────────────────────────────────── */
-        #toast {
-            position: fixed;
-            bottom: 28px;
-            left: 50%;
-            transform: translateX(-50%) translateY(60px);
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            transition: transform 0.25s ease;
-            z-index: 200;
-            white-space: nowrap;
-        }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+        .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 26px; width: 100%; max-width: 360px; }
+        .modal h3 { font-size: 15px; font-weight: 600; margin-bottom: 18px; }
+        .color-grid { display: flex; flex-wrap: wrap; gap: 9px; margin: 10px 0 20px; }
+        .swatch { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2.5px solid transparent; transition: transform 0.1s; }
+        .swatch.active { border-color: #fff; transform: scale(1.15); }
+        .modal-btns { display: flex; gap: 8px; }
+        .btn-sm-ghost { flex: 1; background: var(--bg3); border: none; color: var(--text); padding: 10px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; }
+        .btn-sm-accent { flex: 1; background: var(--accent); border: none; color: #fff; padding: 10px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
+        #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; transition: transform 0.25s ease; z-index: 200; white-space: nowrap; }
         #toast.show { transform: translateX(-50%) translateY(0); }
 
-        /* ─── MODAL ──────────────────────────────────────── */
-        .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.65);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 20px;
-        }
-
-        .modal {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 26px;
-            width: 100%;
-            max-width: 360px;
-        }
-
-        .modal h3 { font-size: 15px; font-weight: 600; margin-bottom: 18px; }
-
-        .color-grid { display: flex; flex-wrap: wrap; gap: 9px; margin: 10px 0 20px; }
-
-        .swatch {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2.5px solid transparent;
-            transition: transform 0.1s;
-        }
-
-        .swatch.active { border-color: #fff; transform: scale(1.15); }
-
-        .modal-btns { display: flex; gap: 8px; }
-
-        .btn-ghost {
-            flex: 1;
-            background: var(--bg3);
-            border: none;
-            color: var(--text);
-            padding: 10px;
-            border-radius: 7px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .btn-accent {
-            flex: 1;
-            background: var(--accent);
-            border: none;
-            color: #fff;
-            padding: 10px;
-            border-radius: 7px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        /* ─── RESPONSIVE ─────────────────────────────────── */
         @media (max-width: 600px) {
             .stats { grid-template-columns: 1fr 1fr; }
             .input-row { grid-template-columns: 1fr; }
             .bd-bar-wrap { display: none; }
             .stat:last-child { grid-column: 1 / -1; }
+            .topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
         }
     </style>
 </head>
 <body>
 
-<!-- ── SETUP SCREEN ─────────────────────────────────────────── -->
-<div id="setup-screen">
-    <div class="setup-card">
-        <h2>Connect to Supabase</h2>
-        <p>Your data will be stored in your free Supabase PostgreSQL database — persists forever, accessible anywhere.</p>
+<!-- ── SETUP SCREEN ── -->
+<div id="setup-screen" class="screen active">
+    <div class="center-wrap">
+        <div class="card">
+            <h2>Connect to Supabase</h2>
+            <div class="sub">One-time setup. Credentials saved in your browser.</div>
 
-        <div class="setup-steps">
-            1. Go to <code>supabase.com</code> → New project<br>
-            2. Settings → API → copy <code>Project URL</code> &amp; <code>anon public</code> key<br>
-            3. Go to SQL Editor → paste &amp; run the query below<br>
-            4. Come back here and fill in your credentials
-        </div>
+            <div class="setup-note">
+                1. Go to <code>supabase.com</code> → your project<br>
+                2. SQL Editor → run the query below (if not done yet)<br>
+                3. Settings → API → copy URL &amp; anon key
+            </div>
 
-        <div style="position:relative;">
-            <pre class="sql-block" id="sql-block">-- Run this once in Supabase SQL Editor
+            <div style="position:relative;">
+                <pre class="sql-block" id="sql-text">-- Run once in Supabase SQL Editor
+
+create table if not exists users (
+  id uuid primary key default gen_random_uuid(),
+  username text unique not null,
+  password_hash text not null,
+  created_at timestamptz default now()
+);
 
 create table if not exists tags (
   id uuid primary key default gen_random_uuid(),
+  user_id uuid references users(id) on delete cascade,
   name text not null,
   color text not null,
   created_at timestamptz default now()
@@ -441,183 +267,289 @@ create table if not exists tags (
 
 create table if not exists transactions (
   id uuid primary key default gen_random_uuid(),
+  user_id uuid references users(id) on delete cascade,
   amount numeric not null,
   purpose text not null,
   tag_id uuid references tags(id) on delete set null,
   created_at timestamptz default now()
 );
 
--- Default tags
-insert into tags (name, color) values
-  ('Food', '#f97316'),
-  ('Transport', '#06b6d4'),
-  ('Subscriptions', '#8b5cf6'),
-  ('Utilities', '#ec4899'),
-  ('Health', '#10b981'),
-  ('Shopping', '#f59e0b'),
-  ('Entertainment', '#3b82f6'),
-  ('Other', '#64748b')
-on conflict do nothing;</pre>
-            <button class="copy-sql" onclick="copySQL()">Copy</button>
-        </div>
+-- Allow anon access (we handle auth ourselves)
+alter table users enable row level security;
+alter table tags enable row level security;
+alter table transactions enable row level security;
 
-        <div style="margin-bottom:12px;">
-            <label>Supabase Project URL</label>
-            <input type="text" id="sb-url" placeholder="https://xxxx.supabase.co" />
+create policy "open" on users for all using (true) with check (true);
+create policy "open" on tags for all using (true) with check (true);
+create policy "open" on transactions for all using (true) with check (true);</pre>
+                <button class="copy-btn" onclick="copySQL()">Copy</button>
+            </div>
+
+            <div class="field">
+                <label>Project URL</label>
+                <input type="text" id="sb-url" placeholder="https://xxxx.supabase.co" />
+            </div>
+            <div class="field">
+                <label>Anon Public Key</label>
+                <input type="text" id="sb-key" placeholder="eyJhbGciOiJIUzI1NiIs..." />
+            </div>
+            <button class="btn" onclick="saveConfig()">Save & Continue</button>
+            <div class="err" id="setup-err"></div>
         </div>
-        <div style="margin-bottom:20px;">
-            <label>Supabase Anon Key</label>
-            <input type="text" id="sb-key" placeholder="eyJhbGciOiJIUzI1NiIs..." />
-        </div>
-        <button class="add-btn" onclick="connect()">Connect & Open App</button>
-        <div id="setup-error" style="color:var(--danger);font-size:12px;margin-top:10px;display:none;"></div>
     </div>
 </div>
 
-<!-- ── MAIN APP ──────────────────────────────────────────────── -->
-<div id="app">
-    <div class="topbar">
-        <div>
-            <h1>Finance Tracker</h1>
-            <div class="topbar-sub" id="topbar-sub">Loading...</div>
-        </div>
-        <div class="month-ctrl">
-            <button class="month-btn" onclick="shiftMonth(-1)">‹</button>
-            <div class="month-label" id="month-label"></div>
-            <button class="month-btn" onclick="shiftMonth(1)">›</button>
-        </div>
-    </div>
+<!-- ── LOGIN SCREEN ── -->
+<div id="login-screen" class="screen">
+    <div class="center-wrap">
+        <div class="card">
+            <h2 id="login-title">Welcome back</h2>
+            <div class="sub" id="login-sub">Sign in to your account</div>
 
-    <div class="stats">
-        <div class="stat">
-            <div class="stat-lbl">Total Spent</div>
-            <div class="stat-val" id="s-total">—</div>
-            <div class="stat-sub" id="s-count">— transactions</div>
-        </div>
-        <div class="stat">
-            <div class="stat-lbl">Daily Average</div>
-            <div class="stat-val" id="s-avg">—</div>
-            <div class="stat-sub" id="s-days">this month</div>
-        </div>
-        <div class="stat">
-            <div class="stat-lbl">Top Category</div>
-            <div class="stat-val" id="s-top" style="font-size:18px;padding-top:4px;">—</div>
-            <div class="stat-sub" id="s-top-amt"></div>
-        </div>
-    </div>
-
-    <!-- ADD TRANSACTION -->
-    <div class="input-card">
-        <div class="input-row">
-            <div>
-                <label>Amount (₹)</label>
-                <input type="number" id="inp-amount" placeholder="0" min="0" step="1" />
+            <div class="field">
+                <label>Username</label>
+                <input type="text" id="login-username" placeholder="your username" autocomplete="username" />
             </div>
-            <div>
-                <label>What did you spend on?</label>
-                <input type="text" id="inp-purpose" placeholder="Coffee, Fuel for bike, Netflix..." />
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
             </div>
+            <div class="field" id="field-confirm" style="display:none;">
+                <label>Confirm Password</label>
+                <input type="password" id="login-confirm" placeholder="••••••••" />
+            </div>
+
+            <button class="btn" id="login-btn" onclick="handleAuth()">Sign In</button>
+            <div class="err" id="login-err"></div>
+            <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted);">
+                <span id="toggle-link" onclick="toggleMode()" style="color:var(--accent);cursor:pointer;">Don't have an account? Sign up</span>
+            </div>
+            <button class="btn-ghost" onclick="showScreen('setup-screen')">⚙ Change Supabase config</button>
         </div>
-        <div>
-            <label>Tag</label>
-            <div class="tag-picker" id="tag-picker"></div>
-        </div>
-        <button class="add-btn" id="add-btn" onclick="addTransaction()">Add Transaction</button>
     </div>
-
-    <!-- BREAKDOWN -->
-    <div class="section-hd">Spending Breakdown</div>
-    <div class="breakdown" id="breakdown"></div>
-
-    <!-- TRANSACTIONS -->
-    <div class="section-hd" style="margin-top:24px;">Transactions</div>
-    <div class="tx-list" id="tx-list"></div>
 </div>
 
-<!-- ── MODAL ─────────────────────────────────────────────────── -->
-<div class="overlay" id="modal" style="display:none;" onclick="closeModalOutside(event)">
+<!-- ── APP SCREEN ── -->
+<div id="app-screen" class="screen">
+    <div style="max-width:880px;margin:0 auto;padding:32px 20px 80px;">
+        <div class="topbar">
+            <div>
+                <h1>Finance Tracker</h1>
+                <div class="topbar-sub" id="topbar-sub"></div>
+            </div>
+            <div class="topbar-right">
+                <div class="month-ctrl">
+                    <button class="month-btn" onclick="shiftMonth(-1)">‹</button>
+                    <div class="month-label" id="month-label"></div>
+                    <button class="month-btn" onclick="shiftMonth(1)">›</button>
+                </div>
+                <button class="logout-btn" onclick="logout()">Sign out</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-lbl">Total Spent</div>
+                <div class="stat-val" id="s-total">—</div>
+                <div class="stat-sub" id="s-count"></div>
+            </div>
+            <div class="stat">
+                <div class="stat-lbl">Daily Average</div>
+                <div class="stat-val" id="s-avg">—</div>
+                <div class="stat-sub">this month</div>
+            </div>
+            <div class="stat">
+                <div class="stat-lbl">Top Category</div>
+                <div class="stat-val" id="s-top" style="font-size:18px;padding-top:4px;">—</div>
+                <div class="stat-sub" id="s-top-amt"></div>
+            </div>
+        </div>
+
+        <div class="input-card">
+            <div class="input-row">
+                <div>
+                    <label>Amount (₹)</label>
+                    <input type="number" id="inp-amount" placeholder="0" min="0" step="1" />
+                </div>
+                <div>
+                    <label>What did you spend on?</label>
+                    <input type="text" id="inp-purpose" placeholder="Coffee, Fuel, Netflix..." />
+                </div>
+            </div>
+            <div>
+                <label>Tag</label>
+                <div class="tag-picker" id="tag-picker"></div>
+            </div>
+            <button class="add-tx-btn" id="add-btn" onclick="addTransaction()">Add Transaction</button>
+        </div>
+
+        <div class="section-hd">Spending Breakdown</div>
+        <div class="breakdown" id="breakdown"></div>
+
+        <div class="section-hd" style="margin-top:24px;">Transactions</div>
+        <div class="tx-list" id="tx-list"></div>
+    </div>
+</div>
+
+<!-- ── TAG MODAL ── -->
+<div class="overlay" id="tag-modal" style="display:none;" onclick="closeModalOutside(event)">
     <div class="modal">
         <h3>Create a custom tag</h3>
         <label>Name</label>
-        <input type="text" id="new-tag-name" placeholder="e.g. Eating Out" style="margin-bottom:4px;" />
+        <input type="text" id="new-tag-name" placeholder="e.g. Eating Out" />
         <label style="margin-top:14px;display:block;">Color</label>
         <div class="color-grid" id="color-grid"></div>
         <div class="modal-btns">
-            <button class="btn-ghost" onclick="closeModal()">Cancel</button>
-            <button class="btn-accent" onclick="createTag()">Create Tag</button>
+            <button class="btn-sm-ghost" onclick="closeModal()">Cancel</button>
+            <button class="btn-sm-accent" onclick="createTag()">Create</button>
         </div>
     </div>
 </div>
 
-<!-- ── TOAST ──────────────────────────────────────────────────── -->
 <div id="toast"></div>
 
 <script>
-// ── CONFIG ────────────────────────────────────────────────────
-const PALETTE = [
-    '#f97316','#ef4444','#f59e0b','#10b981',
-    '#06b6d4','#3b82f6','#8b5cf6','#ec4899',
-    '#64748b','#14b8a6','#a3e635','#fb7185'
+// ── CONSTANTS ─────────────────────────────────────────────────
+const PALETTE = ['#f97316','#ef4444','#f59e0b','#10b981','#06b6d4','#3b82f6','#8b5cf6','#ec4899','#64748b','#14b8a6','#a3e635','#fb7185'];
+const DEFAULT_TAGS = [
+    { name: 'Food', color: '#f97316' },
+    { name: 'Transport', color: '#06b6d4' },
+    { name: 'Subscriptions', color: '#8b5cf6' },
+    { name: 'Utilities', color: '#ec4899' },
+    { name: 'Health', color: '#10b981' },
+    { name: 'Shopping', color: '#f59e0b' },
+    { name: 'Entertainment', color: '#3b82f6' },
+    { name: 'Other', color: '#64748b' },
 ];
 
 // ── STATE ─────────────────────────────────────────────────────
 let sb = null;
+let currentUser = null;
 let tags = [];
 let transactions = [];
 let selectedTag = null;
 let newTagColor = PALETTE[0];
-let currentMonth = new Date(); // Date object, day ignored
+let currentMonth = new Date();
+let isSignUp = false;
+
+// ── SCREENS ───────────────────────────────────────────────────
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
 
 // ── SETUP ─────────────────────────────────────────────────────
 function copySQL() {
-    navigator.clipboard.writeText(document.getElementById('sql-block').innerText);
+    navigator.clipboard.writeText(document.getElementById('sql-text').innerText);
     toast('SQL copied!');
 }
 
-async function connect() {
+async function saveConfig() {
     const url = document.getElementById('sb-url').value.trim();
     const key = document.getElementById('sb-key').value.trim();
-    const errEl = document.getElementById('setup-error');
-
-    if (!url || !key) { showErr('Please fill in both fields.'); return; }
-
+    const err = document.getElementById('setup-err');
+    if (!url || !key) { err.textContent = 'Fill in both fields.'; return; }
     try {
         const { createClient } = supabase;
         sb = createClient(url, key);
-
-        // Test connection
-        const { error } = await sb.from('tags').select('id').limit(1);
+        // test connection
+        const { error } = await sb.from('users').select('id').limit(1);
         if (error) throw error;
-
         localStorage.setItem('sb_url', url);
         localStorage.setItem('sb_key', key);
-
-        document.getElementById('setup-screen').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        errEl.style.display = 'none';
-        init();
-    } catch (e) {
-        showErr('Connection failed: ' + (e.message || 'Check your URL and key.'));
+        err.textContent = '';
+        showScreen('login-screen');
+    } catch(e) {
+        err.textContent = 'Connection failed: ' + (e.message || 'Check URL and key.');
     }
 }
 
-function showErr(msg) {
-    const el = document.getElementById('setup-error');
-    el.textContent = msg;
-    el.style.display = 'block';
+// ── HASH (simple SHA-256) ─────────────────────────────────────
+async function hashPassword(password) {
+    const msgBuffer = new TextEncoder().encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// ── INIT ──────────────────────────────────────────────────────
-async function init() {
+// ── AUTH ──────────────────────────────────────────────────────
+function toggleMode() {
+    isSignUp = !isSignUp;
+    document.getElementById('login-title').textContent = isSignUp ? 'Create account' : 'Welcome back';
+    document.getElementById('login-sub').textContent   = isSignUp ? 'Pick a username and password' : 'Sign in to your account';
+    document.getElementById('login-btn').textContent   = isSignUp ? 'Sign Up' : 'Sign In';
+    document.getElementById('toggle-link').textContent = isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up";
+    document.getElementById('field-confirm').style.display = isSignUp ? 'block' : 'none';
+    document.getElementById('login-err').textContent = '';
+}
+
+async function handleAuth() {
+    const username = document.getElementById('login-username').value.trim().toLowerCase();
+    const password = document.getElementById('login-password').value;
+    const confirm  = document.getElementById('login-confirm').value;
+    const err      = document.getElementById('login-err');
+    const btn      = document.getElementById('login-btn');
+
+    if (!username || !password) { err.textContent = 'Enter username and password.'; return; }
+    if (isSignUp && password !== confirm) { err.textContent = 'Passwords do not match.'; return; }
+    if (isSignUp && password.length < 6)  { err.textContent = 'Password must be at least 6 characters.'; return; }
+
+    btn.disabled = true;
+    btn.textContent = isSignUp ? 'Creating account...' : 'Signing in...';
+    err.textContent = '';
+
+    const hash = await hashPassword(password);
+
+    if (isSignUp) {
+        // Check username taken
+        const { data: existing } = await sb.from('users').select('id').eq('username', username).single();
+        if (existing) { err.textContent = 'Username already taken.'; btn.disabled = false; btn.textContent = 'Sign Up'; return; }
+
+        const { data: newUser, error } = await sb.from('users').insert({ username, password_hash: hash }).select().single();
+        if (error) { err.textContent = error.message; btn.disabled = false; btn.textContent = 'Sign Up'; return; }
+
+        // Seed default tags
+        await sb.from('tags').insert(DEFAULT_TAGS.map(t => ({ ...t, user_id: newUser.id })));
+
+        currentUser = newUser;
+    } else {
+        const { data: user, error } = await sb.from('users').select('*').eq('username', username).eq('password_hash', hash).single();
+        if (error || !user) { err.textContent = 'Invalid username or password.'; btn.disabled = false; btn.textContent = 'Sign In'; return; }
+        currentUser = user;
+    }
+
+    // Save session
+    localStorage.setItem('ft_user_id', currentUser.id);
+    localStorage.setItem('ft_username', currentUser.username);
+
+    btn.disabled = false;
+    btn.textContent = isSignUp ? 'Sign Up' : 'Sign In';
+    await initApp();
+}
+
+function logout() {
+    currentUser = null;
+    tags = []; transactions = []; selectedTag = null;
+    localStorage.removeItem('ft_user_id');
+    localStorage.removeItem('ft_username');
+    showScreen('login-screen');
+    document.getElementById('login-password').value = '';
+    toast('Signed out.');
+}
+
+// ── APP ───────────────────────────────────────────────────────
+async function initApp() {
+    showScreen('app-screen');
+    document.getElementById('topbar-sub').textContent = '@' + currentUser.username;
+    updateMonthLabel();
     await loadTags();
     renderTagPicker();
     await loadTransactions();
     renderAll();
 }
 
-// ── DATA ──────────────────────────────────────────────────────
 async function loadTags() {
-    const { data, error } = await sb.from('tags').select('*').order('created_at');
+    const { data, error } = await sb.from('tags').select('*').eq('user_id', currentUser.id).order('created_at');
     if (!error) tags = data;
 }
 
@@ -626,47 +558,35 @@ async function loadTransactions() {
     const m = String(currentMonth.getMonth() + 1).padStart(2, '0');
     const from = `${y}-${m}-01T00:00:00`;
     const to   = `${y}-${m}-31T23:59:59`;
-
     const { data, error } = await sb
         .from('transactions')
         .select('*, tags(id, name, color)')
+        .eq('user_id', currentUser.id)
         .gte('created_at', from)
         .lte('created_at', to)
         .order('created_at', { ascending: false });
-
     if (!error) transactions = data;
 }
 
 async function addTransaction() {
-    const amountEl  = document.getElementById('inp-amount');
-    const purposeEl = document.getElementById('inp-purpose');
-    const amount  = parseFloat(amountEl.value);
-    const purpose = purposeEl.value.trim();
-
+    const amount  = parseFloat(document.getElementById('inp-amount').value);
+    const purpose = document.getElementById('inp-purpose').value.trim();
     if (!amount || amount <= 0) { toast('Enter a valid amount.'); return; }
     if (!purpose)               { toast('Describe what you spent on.'); return; }
     if (!selectedTag)           { toast('Pick a tag.'); return; }
 
     const btn = document.getElementById('add-btn');
-    btn.disabled = true;
-    btn.textContent = 'Saving...';
+    btn.disabled = true; btn.textContent = 'Saving...';
 
-    const { error } = await sb.from('transactions').insert({
-        amount,
-        purpose,
-        tag_id: selectedTag
-    });
+    const { error } = await sb.from('transactions').insert({ amount, purpose, tag_id: selectedTag, user_id: currentUser.id });
 
-    btn.disabled = false;
-    btn.textContent = 'Add Transaction';
-
+    btn.disabled = false; btn.textContent = 'Add Transaction';
     if (error) { toast('Error: ' + error.message); return; }
 
-    amountEl.value  = '';
-    purposeEl.value = '';
+    document.getElementById('inp-amount').value  = '';
+    document.getElementById('inp-purpose').value = '';
     selectedTag = null;
     renderTagPicker();
-
     await loadTransactions();
     renderAll();
     toast('Transaction added ✓');
@@ -683,195 +603,154 @@ async function deleteTransaction(id) {
 async function createTag() {
     const name = document.getElementById('new-tag-name').value.trim();
     if (!name) { toast('Enter a tag name.'); return; }
-    if (tags.find(t => t.name.toLowerCase() === name.toLowerCase())) {
-        toast('Tag already exists.'); return;
-    }
-
-    const { data, error } = await sb.from('tags').insert({ name, color: newTagColor }).select().single();
+    if (tags.find(t => t.name.toLowerCase() === name.toLowerCase())) { toast('Tag already exists.'); return; }
+    const { data, error } = await sb.from('tags').insert({ name, color: newTagColor, user_id: currentUser.id }).select().single();
     if (error) { toast('Error: ' + error.message); return; }
-
     tags.push(data);
     closeModal();
     renderTagPicker();
-    toast(`Tag "${name}" created ✓`);
+    toast(`"${name}" created ✓`);
 }
 
-// ── MONTH NAV ─────────────────────────────────────────────────
+// ── MONTH ─────────────────────────────────────────────────────
 async function shiftMonth(dir) {
     currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + dir, 1);
+    updateMonthLabel();
     await loadTransactions();
     renderAll();
 }
 
-// ── RENDER ────────────────────────────────────────────────────
-function renderAll() {
-    updateMonthLabel();
-    renderStats();
-    renderBreakdown();
-    renderTransactions();
+function updateMonthLabel() {
+    document.getElementById('month-label').textContent = currentMonth.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
 }
 
-function updateMonthLabel() {
-    document.getElementById('month-label').textContent = currentMonth.toLocaleDateString('en-IN', {
-        month: 'short', year: 'numeric'
-    });
-}
+// ── RENDER ────────────────────────────────────────────────────
+function renderAll() { renderStats(); renderBreakdown(); renderTransactions(); }
 
 function renderStats() {
     const total = transactions.reduce((s, t) => s + parseFloat(t.amount), 0);
     const count = transactions.length;
-
-    // Days elapsed in the month (for avg)
     const now = new Date();
     const sameMonth = now.getFullYear() === currentMonth.getFullYear() && now.getMonth() === currentMonth.getMonth();
-    const daysElapsed = sameMonth ? now.getDate() : new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
-    const avg = daysElapsed > 0 ? total / daysElapsed : 0;
-
-    // Top tag
+    const days = sameMonth ? now.getDate() : new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
+    const avg = days > 0 ? total / days : 0;
     const byTag = {};
-    transactions.forEach(t => {
-        const name = t.tags?.name || 'Other';
-        byTag[name] = (byTag[name] || 0) + parseFloat(t.amount);
-    });
-    const topEntry = Object.entries(byTag).sort(([,a],[,b]) => b - a)[0];
-
-    document.getElementById('s-total').textContent = fmt(total);
-    document.getElementById('s-count').textContent = `${count} transaction${count !== 1 ? 's' : ''}`;
-    document.getElementById('s-avg').textContent = avg > 0 ? fmt(avg) : '—';
-    document.getElementById('s-days').textContent = `per day this month`;
-    document.getElementById('s-top').textContent = topEntry ? topEntry[0] : '—';
-    document.getElementById('s-top-amt').textContent = topEntry ? fmt(topEntry[1]) + ' spent' : 'no data yet';
-
-    document.getElementById('topbar-sub').textContent = currentMonth.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+    transactions.forEach(t => { const n = t.tags?.name || 'Other'; byTag[n] = (byTag[n] || 0) + parseFloat(t.amount); });
+    const top = Object.entries(byTag).sort(([,a],[,b]) => b - a)[0];
+    document.getElementById('s-total').textContent   = fmt(total);
+    document.getElementById('s-count').textContent   = `${count} transaction${count !== 1 ? 's' : ''}`;
+    document.getElementById('s-avg').textContent     = avg > 0 ? fmt(avg) : '—';
+    document.getElementById('s-top').textContent     = top ? top[0] : '—';
+    document.getElementById('s-top-amt').textContent = top ? fmt(top[1]) + ' spent' : 'no data yet';
 }
 
 function renderBreakdown() {
     const el = document.getElementById('breakdown');
-    if (transactions.length === 0) {
-        el.innerHTML = `<div class="empty-msg">No transactions this month yet.</div>`;
-        return;
-    }
-
+    if (!transactions.length) { el.innerHTML = `<div class="empty-msg">No transactions this month yet.</div>`; return; }
     const byTag = {};
     transactions.forEach(t => {
-        const key = t.tags?.name || 'Other';
-        const color = t.tags?.color || '#64748b';
+        const key = t.tags?.name || 'Other', color = t.tags?.color || '#64748b';
         if (!byTag[key]) byTag[key] = { amount: 0, color };
         byTag[key].amount += parseFloat(t.amount);
     });
-
     const total = Object.values(byTag).reduce((s, v) => s + v.amount, 0);
-    const sorted = Object.entries(byTag).sort(([,a],[,b]) => b.amount - a.amount);
-
-    el.innerHTML = sorted.map(([name, { amount, color }]) => {
+    el.innerHTML = Object.entries(byTag).sort(([,a],[,b]) => b.amount - a.amount).map(([name, { amount, color }]) => {
         const pct = total ? (amount / total * 100) : 0;
-        return `
-            <div class="bd-row">
-                <div class="bd-dot" style="background:${color}"></div>
-                <div class="bd-name">${name}</div>
-                <div class="bd-bar-wrap"><div class="bd-bar" style="width:${pct}%;background:${color}"></div></div>
-                <div class="bd-pct">${pct.toFixed(0)}%</div>
-                <div class="bd-amt">${fmt(amount)}</div>
-            </div>
-        `;
+        return `<div class="bd-row">
+            <div class="bd-dot" style="background:${color}"></div>
+            <div class="bd-name">${esc(name)}</div>
+            <div class="bd-bar-wrap"><div class="bd-bar" style="width:${pct}%;background:${color}"></div></div>
+            <div class="bd-pct">${pct.toFixed(0)}%</div>
+            <div class="bd-amt">${fmt(amount)}</div>
+        </div>`;
     }).join('');
 }
 
 function renderTransactions() {
     const el = document.getElementById('tx-list');
-    if (transactions.length === 0) {
-        el.innerHTML = `<div class="empty-msg">No transactions yet — add one above.</div>`;
-        return;
-    }
-
+    if (!transactions.length) { el.innerHTML = `<div class="empty-msg">No transactions yet — add one above.</div>`; return; }
     el.innerHTML = transactions.map(tx => {
-        const color = tx.tags?.color || '#64748b';
-        const tagName = tx.tags?.name || 'Untagged';
-        return `
-            <div class="tx">
-                <div class="tx-dot" style="background:${color}"></div>
-                <div class="tx-info">
-                    <div class="tx-purpose">${esc(tx.purpose)}</div>
-                    <div class="tx-meta">${fmtDate(tx.created_at)} · ${fmtTime(tx.created_at)}</div>
-                </div>
-                <div class="tx-badge" style="background:${color}">${tagName}</div>
-                <div class="tx-amount">−${fmt(tx.amount)}</div>
-                <button class="del-btn" onclick="deleteTransaction('${tx.id}')" title="Remove">✕</button>
+        const color = tx.tags?.color || '#64748b', tagName = tx.tags?.name || 'Untagged';
+        return `<div class="tx">
+            <div class="tx-dot" style="background:${color}"></div>
+            <div class="tx-info">
+                <div class="tx-purpose">${esc(tx.purpose)}</div>
+                <div class="tx-meta">${fmtDate(tx.created_at)} · ${fmtTime(tx.created_at)}</div>
             </div>
-        `;
+            <div class="tx-badge" style="background:${color}">${esc(tagName)}</div>
+            <div class="tx-amount">−${fmt(tx.amount)}</div>
+            <button class="del-btn" onclick="deleteTransaction('${tx.id}')" title="Remove">✕</button>
+        </div>`;
     }).join('');
 }
 
 function renderTagPicker() {
     const el = document.getElementById('tag-picker');
+    if (!el) return;
     el.innerHTML = tags.map(tag => `
         <div class="tag-pill ${selectedTag === tag.id ? 'selected' : ''}"
              style="${selectedTag === tag.id ? `background:${tag.color};border-color:${tag.color};` : ''}"
              onclick="selectTag('${tag.id}')">
             ${esc(tag.name)}
-        </div>
-    `).join('') + `<div class="tag-pill new-tag" onclick="openModal()">+ New tag</div>`;
+        </div>`).join('') + `<div class="tag-pill new-tag" onclick="openModal()">+ New tag</div>`;
 }
 
-function selectTag(id) {
-    selectedTag = selectedTag === id ? null : id;
-    renderTagPicker();
-}
+function selectTag(id) { selectedTag = selectedTag === id ? null : id; renderTagPicker(); }
 
 // ── MODAL ─────────────────────────────────────────────────────
 function openModal() {
     newTagColor = PALETTE[0];
     document.getElementById('new-tag-name').value = '';
-    document.getElementById('color-grid').innerHTML = PALETTE.map(c => `
-        <div class="swatch ${c === newTagColor ? 'active' : ''}" style="background:${c}" onclick="pickColor('${c}')"></div>
-    `).join('');
-    document.getElementById('modal').style.display = 'flex';
+    document.getElementById('color-grid').innerHTML = PALETTE.map(c =>
+        `<div class="swatch ${c === newTagColor ? 'active' : ''}" style="background:${c}" onclick="pickColor('${c}')"></div>`
+    ).join('');
+    document.getElementById('tag-modal').style.display = 'flex';
     setTimeout(() => document.getElementById('new-tag-name').focus(), 50);
 }
 
-function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-function closeModalOutside(e) { if (e.target.id === 'modal') closeModal(); }
-
-function pickColor(c) {
-    newTagColor = c;
-    document.querySelectorAll('.swatch').forEach(el => {
-        el.classList.toggle('active', el.style.background === c);
-    });
-}
+function closeModal() { document.getElementById('tag-modal').style.display = 'none'; }
+function closeModalOutside(e) { if (e.target.id === 'tag-modal') closeModal(); }
+function pickColor(c) { newTagColor = c; document.querySelectorAll('.swatch').forEach(el => el.classList.toggle('active', el.style.background === c)); }
 
 // ── TOAST ─────────────────────────────────────────────────────
 let toastTimer;
 function toast(msg) {
     const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.classList.add('show');
+    el.textContent = msg; el.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
 // ── UTILS ─────────────────────────────────────────────────────
-const fmt = (n) => `₹${parseFloat(n).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
-const fmtDate = (d) => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-const fmtTime = (d) => new Date(d).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
-const esc = (s) => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const fmt     = n => `₹${parseFloat(n).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+const fmtDate = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+const fmtTime = d => new Date(d).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+const esc     = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-// ── KEYBOARD ──────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) addTransaction();
     if (e.key === 'Escape') closeModal();
 });
 
-// ── AUTO-CONNECT ──────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', () => {
+// ── BOOT ──────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
     const url = localStorage.getItem('sb_url');
     const key = localStorage.getItem('sb_key');
-    if (url && key) {
-        document.getElementById('sb-url').value = url;
-        document.getElementById('sb-key').value = key;
-        connect();
-    }
     updateMonthLabel();
+    if (!url || !key) { showScreen('setup-screen'); return; }
+
+    const { createClient } = supabase;
+    sb = createClient(url, key);
+
+    // Auto-login if session saved
+    const savedId = localStorage.getItem('ft_user_id');
+    const savedUsername = localStorage.getItem('ft_username');
+    if (savedId && savedUsername) {
+        const { data: user, error } = await sb.from('users').select('*').eq('id', savedId).single();
+        if (!error && user) { currentUser = user; await initApp(); return; }
+    }
+
+    showScreen('login-screen');
 });
 </script>
 </body>
