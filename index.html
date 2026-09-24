@@ -759,5 +759,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     showScreen('login-screen');
 });
 </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/finance-tracker/sw.js');
+    });
+  }
+</script>
 </body>
 </html>
