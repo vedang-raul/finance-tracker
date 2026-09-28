@@ -25,7 +25,15 @@
             --accent:  #4a7feb;
             --danger:  #e85555;
             --success: #34c98a;
-            --radius:  10px;
+            --radius:  12px;
+            --nav-h:   64px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-top: env(safe-area-inset-top, 0px);
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
@@ -34,30 +42,33 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-size: 14px;
             line-height: 1.5;
-            min-height: 100vh;
         }
 
-        .screen { display: none; }
-        .screen.active { display: block; }
+        /* ── SCREENS ── */
+        .screen { display: none; height: 100%; }
+        .screen.active { display: flex; flex-direction: column; }
 
+        /* ── AUTH/SETUP CARD ── */
         .center-wrap {
-            min-height: 100vh;
+            flex: 1;
             display: flex; align-items: center; justify-content: center;
-            padding: 24px;
+            padding: 20px;
+            overflow-y: auto;
+            padding-top: calc(20px + var(--safe-top));
         }
 
         .card {
             background: var(--bg2);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 36px;
+            border-radius: 16px;
+            padding: 28px 24px;
             width: 100%; max-width: 420px;
         }
 
-        .card h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-        .card .sub { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
+        .card h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .card .sub { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
 
-        .field { margin-bottom: 14px; }
+        .field { margin-bottom: 12px; }
 
         label {
             display: block;
@@ -71,10 +82,11 @@
             background: var(--bg);
             border: 1px solid var(--border);
             color: var(--text);
-            padding: 10px 12px;
-            border-radius: 7px;
-            font-size: 14px; font-family: inherit;
+            padding: 11px 12px;
+            border-radius: 8px;
+            font-size: 15px; font-family: inherit;
             transition: border-color 0.15s;
+            -webkit-appearance: none;
         }
 
         input:focus { outline: none; border-color: var(--accent); }
@@ -82,160 +94,313 @@
         .btn {
             width: 100%;
             background: var(--accent); color: #fff;
-            border: none; padding: 11px;
-            border-radius: 7px; font-size: 14px;
+            border: none; padding: 13px;
+            border-radius: 9px; font-size: 15px;
             font-weight: 600; cursor: pointer;
             font-family: inherit; transition: opacity 0.15s;
-            margin-top: 4px;
+            margin-top: 4px; -webkit-appearance: none;
         }
 
-        .btn:hover { opacity: 0.85; }
+        .btn:active { opacity: 0.8; }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
         .btn-ghost {
             width: 100%; background: var(--bg3); color: var(--muted);
-            border: none; padding: 9px; border-radius: 7px;
-            font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 8px;
+            border: none; padding: 11px; border-radius: 8px;
+            font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 8px;
         }
-        .btn-ghost:hover { color: var(--text); }
 
-        .err { color: var(--danger); font-size: 12px; margin-top: 10px; min-height: 18px; }
-        .ok  { color: var(--success); font-size: 12px; margin-top: 10px; }
+        .err { color: var(--danger); font-size: 12px; margin-top: 10px; min-height: 16px; }
 
-        /* setup */
+        /* ── SETUP SQL ── */
         .sql-block {
             background: var(--bg3); border: 1px solid var(--border);
-            border-radius: 8px; padding: 14px;
-            font-family: 'Courier New', monospace; font-size: 11px;
-            color: #a8b5d0; line-height: 1.7;
-            margin-bottom: 20px; white-space: pre; overflow-x: auto;
-            position: relative;
+            border-radius: 8px; padding: 12px;
+            font-family: 'Courier New', monospace; font-size: 10.5px;
+            color: #a8b5d0; line-height: 1.6;
+            margin-bottom: 16px; white-space: pre; overflow-x: auto;
+            position: relative; max-height: 160px; overflow-y: auto;
         }
         .copy-btn {
-            position: absolute; top: 8px; right: 8px;
+            position: sticky; top: 0; float: right;
             background: var(--bg4); border: 1px solid var(--border);
             color: var(--muted); padding: 3px 9px; border-radius: 5px;
             font-size: 11px; cursor: pointer; font-family: inherit;
         }
-        .copy-btn:hover { color: var(--text); }
         .setup-note {
             background: var(--bg3); border-radius: 8px;
-            padding: 14px 16px; font-size: 13px;
-            color: var(--muted); line-height: 1.8; margin-bottom: 20px;
+            padding: 12px 14px; font-size: 13px;
+            color: var(--muted); line-height: 1.8; margin-bottom: 16px;
         }
         .setup-note code {
             background: var(--bg4); color: var(--accent);
             padding: 1px 5px; border-radius: 3px; font-size: 11px;
         }
 
-        /* app */
-        #app-screen { max-width: 880px; margin: 0 auto; padding: 32px 20px 80px; }
+        /* ── APP LAYOUT ── */
+        #app-screen {
+            height: 100%;
+            padding-top: var(--safe-top);
+        }
 
+        /* ── TOP BAR ── */
         .topbar {
             display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 28px;
+            padding: 14px 16px 10px;
+            flex-shrink: 0;
         }
-        .topbar h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
-        .topbar-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-        .topbar-right { display: flex; align-items: center; gap: 12px; }
 
-        .month-ctrl { display: flex; align-items: center; gap: 8px; }
+        .topbar-left h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+        .topbar-left .topbar-sub { font-size: 11px; color: var(--muted); }
+
+        .topbar-right { display: flex; align-items: center; gap: 8px; }
+
+        .month-ctrl { display: flex; align-items: center; gap: 6px; }
         .month-btn {
             background: var(--bg3); border: 1px solid var(--border);
-            color: var(--text); width: 30px; height: 30px;
-            border-radius: 6px; cursor: pointer; font-size: 15px;
+            color: var(--text); width: 28px; height: 28px;
+            border-radius: 6px; cursor: pointer; font-size: 14px;
             display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
         }
-        .month-btn:hover { background: var(--bg4); }
-        .month-label { font-size: 13px; font-weight: 600; min-width: 90px; text-align: center; }
+        .month-btn:active { background: var(--bg4); }
+        .month-label { font-size: 12px; font-weight: 600; min-width: 72px; text-align: center; }
 
-        .logout-btn {
-            background: none; border: 1px solid var(--border);
-            color: var(--muted); padding: 6px 12px;
-            border-radius: 6px; font-size: 12px;
-            cursor: pointer; font-family: inherit;
-            transition: color 0.15s, border-color 0.15s;
+        /* ── PAGE CONTENT ── */
+        .page { display: none; flex: 1; overflow-y: auto; padding: 0 16px; }
+        .page.active { display: block; }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-nav {
+            display: flex;
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            padding-bottom: var(--safe-bottom);
+            flex-shrink: 0;
+            height: calc(var(--nav-h) + var(--safe-bottom));
         }
-        .logout-btn:hover { color: var(--danger); border-color: var(--danger); }
 
-        .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 24px; }
-        .stat { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
-        .stat-lbl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin-bottom: 8px; }
-        .stat-val { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
-        .stat-sub { font-size: 12px; color: var(--muted); margin-top: 5px; }
+        .nav-item {
+            flex: 1;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px 0;
+            color: var(--muted);
+            transition: color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        .input-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
-        .input-row { display: grid; grid-template-columns: 150px 1fr; gap: 10px; margin-bottom: 14px; }
+        .nav-item.active { color: var(--accent); }
+
+        .nav-icon { font-size: 20px; line-height: 1; }
+        .nav-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+
+        /* ── HOME PAGE ── */
+        .stats-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 10px; margin-bottom: 14px;
+        }
+
+        .stat {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 14px;
+        }
+
+        .stat.full { grid-column: 1 / -1; }
+
+        .stat-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin-bottom: 6px; }
+        .stat-val { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
+        .stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+        /* ── ADD PAGE ── */
+        .add-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 16px; margin-bottom: 14px;
+        }
+
+        .add-card .field { margin-bottom: 12px; }
+
+        .amount-input {
+            font-size: 32px !important;
+            font-weight: 700 !important;
+            letter-spacing: -1px;
+            padding: 8px 0 !important;
+            background: transparent !important;
+            border: none !important;
+            border-bottom: 2px solid var(--border) !important;
+            border-radius: 0 !important;
+            color: var(--text) !important;
+        }
+
+        .amount-input:focus { border-bottom-color: var(--accent) !important; }
 
         .tag-picker { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+
         .tag-pill {
-            padding: 5px 13px; border-radius: 20px;
-            font-size: 12px; font-weight: 500;
+            padding: 6px 14px; border-radius: 20px;
+            font-size: 13px; font-weight: 500;
             border: 1.5px solid var(--border);
             cursor: pointer; transition: all 0.12s;
             background: var(--bg3); color: var(--muted); user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        .tag-pill:hover { color: var(--text); }
+
         .tag-pill.selected { color: #fff; border-color: transparent; }
         .tag-pill.new-tag { border-style: dashed; }
-        .tag-pill.new-tag:hover { border-color: var(--accent); color: var(--accent); }
+        .tag-pill.new-tag:active { border-color: var(--accent); color: var(--accent); }
 
         .add-tx-btn {
             width: 100%; margin-top: 16px;
             background: var(--accent); color: #fff;
-            border: none; padding: 11px; border-radius: 7px;
-            font-size: 14px; font-weight: 600; cursor: pointer;
-            transition: opacity 0.15s; font-family: inherit;
+            border: none; padding: 14px; border-radius: 10px;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+            font-family: inherit; -webkit-appearance: none;
         }
-        .add-tx-btn:hover { opacity: 0.85; }
-        .add-tx-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        .section-hd { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+        .add-tx-btn:active { opacity: 0.85; }
+        .add-tx-btn:disabled { opacity: 0.4; }
 
-        .breakdown { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
-        .bd-row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid var(--border); }
+        /* ── BREAKDOWN PAGE ── */
+        .breakdown-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden; margin-bottom: 14px;
+        }
+
+        .bd-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 14px; border-bottom: 1px solid var(--border);
+        }
+
         .bd-row:last-child { border-bottom: none; }
-        .bd-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+        .bd-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
         .bd-name { flex: 1; font-size: 13px; }
-        .bd-bar-wrap { width: 90px; height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
-        .bd-bar { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
-        .bd-pct { font-size: 12px; color: var(--muted); width: 34px; text-align: right; }
-        .bd-amt { font-size: 13px; font-weight: 600; width: 82px; text-align: right; }
+        .bd-bar-wrap { width: 60px; height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+        .bd-bar { height: 100%; border-radius: 2px; }
+        .bd-pct { font-size: 12px; color: var(--muted); width: 30px; text-align: right; }
+        .bd-amt { font-size: 13px; font-weight: 600; width: 70px; text-align: right; }
 
-        .empty-msg { padding: 32px; text-align: center; color: var(--muted); font-size: 13px; }
+        /* ── TRANSACTIONS PAGE ── */
+        .tx-list-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden; margin-bottom: 14px;
+        }
 
-        .tx-list { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-        .tx { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid var(--border); transition: background 0.1s; }
+        .tx {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 14px; border-bottom: 1px solid var(--border);
+            -webkit-tap-highlight-color: transparent;
+        }
+
         .tx:last-child { border-bottom: none; }
-        .tx:hover { background: var(--bg3); }
+        .tx:active { background: var(--bg3); }
         .tx-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
         .tx-info { flex: 1; min-width: 0; }
-        .tx-purpose { font-size: 14px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .tx-meta { font-size: 12px; color: var(--muted); }
-        .tx-badge { font-size: 11px; padding: 3px 9px; border-radius: 12px; font-weight: 500; color: #fff; flex-shrink: 0; white-space: nowrap; }
-        .tx-amount { font-size: 14px; font-weight: 600; color: var(--danger); white-space: nowrap; margin-left: 4px; }
-        .del-btn { background: none; border: none; color: var(--border); cursor: pointer; font-size: 14px; padding: 3px 6px; border-radius: 4px; transition: color 0.12s, background 0.12s; line-height: 1; flex-shrink: 0; }
-        .del-btn:hover { color: var(--danger); background: rgba(232,85,85,0.1); }
+        .tx-purpose { font-size: 14px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tx-meta { font-size: 11px; color: var(--muted); }
+        .tx-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 500; color: #fff; flex-shrink: 0; white-space: nowrap; }
+        .tx-amount { font-size: 14px; font-weight: 600; color: var(--danger); white-space: nowrap; margin-left: 2px; }
+        .del-btn { background: none; border: none; color: var(--border); cursor: pointer; font-size: 14px; padding: 4px 6px; border-radius: 4px; line-height: 1; flex-shrink: 0; }
+        .del-btn:active { color: var(--danger); background: rgba(232,85,85,0.1); }
 
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
-        .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 26px; width: 100%; max-width: 360px; }
-        .modal h3 { font-size: 15px; font-weight: 600; margin-bottom: 18px; }
-        .color-grid { display: flex; flex-wrap: wrap; gap: 9px; margin: 10px 0 20px; }
-        .swatch { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2.5px solid transparent; transition: transform 0.1s; }
-        .swatch.active { border-color: #fff; transform: scale(1.15); }
-        .modal-btns { display: flex; gap: 8px; }
-        .btn-sm-ghost { flex: 1; background: var(--bg3); border: none; color: var(--text); padding: 10px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; }
-        .btn-sm-accent { flex: 1; background: var(--accent); border: none; color: #fff; padding: 10px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
-
-        #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; transition: transform 0.25s ease; z-index: 200; white-space: nowrap; }
-        #toast.show { transform: translateX(-50%) translateY(0); }
-
-        @media (max-width: 600px) {
-            .stats { grid-template-columns: 1fr 1fr; }
-            .input-row { grid-template-columns: 1fr; }
-            .bd-bar-wrap { display: none; }
-            .stat:last-child { grid-column: 1 / -1; }
-            .topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
+        /* ── BREAKDOWN INSIGHTS ── */
+        .insight-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden; margin-bottom: 0;
         }
+        .insight-title {
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.6px; color: var(--muted);
+        }
+        .insight-mini {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 12px; text-align: center;
+        }
+        .insight-mini-val { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+        .insight-mini-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.4px; }
+
+        /* ── SETTINGS PAGE ── */
+        .settings-section { margin-bottom: 20px; }
+        .settings-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin-bottom: 8px; padding-left: 4px; }
+
+        .settings-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden;
+        }
+
+        .settings-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 16px; border-bottom: 1px solid var(--border);
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+
+        .settings-row:last-child { border-bottom: none; }
+        .settings-row:active { background: var(--bg3); }
+        .settings-row-left { display: flex; align-items: center; gap: 12px; }
+        .settings-icon { font-size: 18px; width: 32px; text-align: center; }
+        .settings-label { font-size: 14px; }
+        .settings-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+        .settings-arrow { color: var(--muted); font-size: 16px; }
+
+        .settings-danger { color: var(--danger) !important; }
+
+        /* ── SECTION HEADER ── */
+        .section-hd {
+            font-size: 13px; font-weight: 600; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin: 14px 0 8px;
+        }
+
+        .empty-msg { padding: 28px; text-align: center; color: var(--muted); font-size: 13px; }
+
+        /* ── MODAL ── */
+        .overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex; align-items: flex-end; justify-content: center;
+            z-index: 100;
+        }
+
+        .modal {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 16px 16px 0 0;
+            padding: 20px 20px calc(20px + var(--safe-bottom));
+            width: 100%; max-width: 480px;
+        }
+
+        .modal-handle {
+            width: 36px; height: 4px;
+            background: var(--border); border-radius: 2px;
+            margin: 0 auto 16px;
+        }
+
+        .modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+
+        .color-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 20px; }
+        .swatch { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2.5px solid transparent; transition: transform 0.1s; }
+        .swatch.active { border-color: #fff; transform: scale(1.15); }
+
+        .modal-btns { display: flex; gap: 8px; }
+        .btn-sm-ghost { flex: 1; background: var(--bg3); border: none; color: var(--text); padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
+        .btn-sm-accent { flex: 1; background: var(--accent); border: none; color: #fff; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+        /* ── TOAST ── */
+        #toast {
+            position: fixed; bottom: calc(var(--nav-h) + var(--safe-bottom) + 12px); left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg3); border: 1px solid var(--border);
+            color: var(--text); padding: 10px 18px;
+            border-radius: 20px; font-size: 13px; font-weight: 500;
+            opacity: 0; transition: all 0.25s ease;
+            z-index: 200; white-space: nowrap; pointer-events: none;
+        }
+
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ── PAGE PADDING ── */
+        .page { padding-bottom: 16px; }
     </style>
 </head>
 <body>
@@ -244,17 +409,17 @@
 <div id="setup-screen" class="screen active">
     <div class="center-wrap">
         <div class="card">
-            <h2>Connect to Supabase</h2>
-            <div class="sub">One-time setup. Credentials saved in your browser.</div>
+            <h2>Connect Supabase</h2>
+            <div class="sub">One-time setup. Saved in your browser.</div>
 
             <div class="setup-note">
                 1. Go to <code>supabase.com</code> → your project<br>
-                2. SQL Editor → run the query below (if not done yet)<br>
+                2. SQL Editor → run the query below<br>
                 3. Settings → API → copy URL &amp; anon key
             </div>
 
-            <div style="position:relative;">
-                <pre class="sql-block" id="sql-text">-- Run once in Supabase SQL Editor
+            <div class="sql-block">
+                <button class="copy-btn" onclick="copySQL()">Copy</button><span id="sql-text">-- Run once in Supabase SQL Editor
 
 create table if not exists users (
   id uuid primary key default gen_random_uuid(),
@@ -280,15 +445,13 @@ create table if not exists transactions (
   created_at timestamptz default now()
 );
 
--- Allow anon access (we handle auth ourselves)
 alter table users enable row level security;
 alter table tags enable row level security;
 alter table transactions enable row level security;
 
 create policy "open" on users for all using (true) with check (true);
 create policy "open" on tags for all using (true) with check (true);
-create policy "open" on transactions for all using (true) with check (true);</pre>
-                <button class="copy-btn" onclick="copySQL()">Copy</button>
+create policy "open" on transactions for all using (true) with check (true);</span>
             </div>
 
             <div class="field">
@@ -337,72 +500,156 @@ create policy "open" on transactions for all using (true) with check (true);</pr
 
 <!-- ── APP SCREEN ── -->
 <div id="app-screen" class="screen">
-    <div style="max-width:880px;margin:0 auto;padding:32px 20px 80px;">
-        <div class="topbar">
-            <div>
-                <h1>Finance Tracker</h1>
-                <div class="topbar-sub" id="topbar-sub"></div>
-            </div>
-            <div class="topbar-right">
-                <div class="month-ctrl">
-                    <button class="month-btn" onclick="shiftMonth(-1)">‹</button>
-                    <div class="month-label" id="month-label"></div>
-                    <button class="month-btn" onclick="shiftMonth(1)">›</button>
-                </div>
-                <button class="logout-btn" onclick="logout()">Sign out</button>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <h1 id="page-title">Finance</h1>
+            <div class="topbar-sub" id="topbar-sub"></div>
+        </div>
+        <div class="topbar-right">
+            <div class="month-ctrl" id="month-ctrl">
+                <button class="month-btn" onclick="shiftMonth(-1)">‹</button>
+                <div class="month-label" id="month-label"></div>
+                <button class="month-btn" onclick="shiftMonth(1)">›</button>
             </div>
         </div>
+    </div>
 
-        <div class="stats">
-            <div class="stat">
+    <!-- ── HOME PAGE ── -->
+    <div id="page-home" class="page active">
+        <div class="stats-grid">
+            <div class="stat full">
                 <div class="stat-lbl">Total Spent</div>
                 <div class="stat-val" id="s-total">—</div>
                 <div class="stat-sub" id="s-count"></div>
             </div>
             <div class="stat">
-                <div class="stat-lbl">Daily Average</div>
-                <div class="stat-val" id="s-avg">—</div>
-                <div class="stat-sub">this month</div>
+                <div class="stat-lbl">Daily Avg</div>
+                <div class="stat-val" id="s-avg" style="font-size:18px;">—</div>
+                <div class="stat-sub">per day</div>
             </div>
             <div class="stat">
                 <div class="stat-lbl">Top Category</div>
-                <div class="stat-val" id="s-top" style="font-size:18px;padding-top:4px;">—</div>
+                <div class="stat-val" id="s-top" style="font-size:16px;padding-top:2px;">—</div>
                 <div class="stat-sub" id="s-top-amt"></div>
             </div>
         </div>
 
-        <div class="input-card">
-            <div class="input-row">
-                <div>
-                    <label>Amount (₹)</label>
-                    <input type="number" id="inp-amount" placeholder="0" min="0" step="1" />
-                </div>
-                <div>
-                    <label>What did you spend on?</label>
-                    <input type="text" id="inp-purpose" placeholder="Coffee, Fuel, Netflix..." />
-                </div>
+        <div class="section-hd">Recent</div>
+        <div class="tx-list-card" id="home-tx-list"></div>
+    </div>
+
+    <!-- ── ADD PAGE ── -->
+    <div id="page-add" class="page">
+        <div class="add-card">
+            <div class="field">
+                <label>Amount (₹)</label>
+                <input type="number" id="inp-amount" class="amount-input" placeholder="0" min="0" step="1" inputmode="numeric" />
             </div>
-            <div>
+            <div class="field">
+                <label>What did you spend on?</label>
+                <input type="text" id="inp-purpose" placeholder="Coffee, Fuel, Netflix..." />
+            </div>
+            <div class="field">
                 <label>Tag</label>
                 <div class="tag-picker" id="tag-picker"></div>
             </div>
             <button class="add-tx-btn" id="add-btn" onclick="addTransaction()">Add Transaction</button>
         </div>
-
-        <div class="section-hd">Spending Breakdown</div>
-        <div class="breakdown" id="breakdown"></div>
-
-        <div class="section-hd" style="margin-top:24px;">Transactions</div>
-        <div class="tx-list" id="tx-list"></div>
     </div>
+
+    <!-- ── BREAKDOWN PAGE ── -->
+    <div id="page-breakdown" class="page">
+        <div id="breakdown-content"></div>
+    </div>
+
+    <!-- ── TRANSACTIONS PAGE ── -->
+    <div id="page-txs" class="page">
+        <div class="section-hd" style="margin-top:8px;">All Transactions</div>
+        <div class="tx-list-card" id="tx-list"></div>
+    </div>
+
+    <!-- ── SETTINGS PAGE ── -->
+    <div id="page-settings" class="page">
+        <div class="settings-section" style="margin-top:8px;">
+            <div class="settings-title">Account</div>
+            <div class="settings-card">
+                <div class="settings-row" style="cursor:default;">
+                    <div class="settings-row-left">
+                        <div class="settings-icon">👤</div>
+                        <div>
+                            <div class="settings-label" id="settings-username">—</div>
+                            <div class="settings-sub">Signed in</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-row" onclick="logout()">
+                    <div class="settings-row-left">
+                        <div class="settings-icon">🚪</div>
+                        <div>
+                            <div class="settings-label settings-danger">Sign Out</div>
+                        </div>
+                    </div>
+                    <div class="settings-arrow">›</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-title">Tags</div>
+            <div class="settings-card" id="tags-settings-list"></div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-title">Data</div>
+            <div class="settings-card">
+                <div class="settings-row" onclick="showScreen('setup-screen')">
+                    <div class="settings-row-left">
+                        <div class="settings-icon">🔗</div>
+                        <div>
+                            <div class="settings-label">Supabase Config</div>
+                            <div class="settings-sub">Change connection settings</div>
+                        </div>
+                    </div>
+                    <div class="settings-arrow">›</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-page="home" onclick="switchPage('home')">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-item" data-page="add" onclick="switchPage('add')">
+            <div class="nav-icon">➕</div>
+            <div class="nav-label">Add</div>
+        </div>
+        <div class="nav-item" data-page="breakdown" onclick="switchPage('breakdown')">
+            <div class="nav-icon">📊</div>
+            <div class="nav-label">Breakdown</div>
+        </div>
+        <div class="nav-item" data-page="txs" onclick="switchPage('txs')">
+            <div class="nav-icon">📋</div>
+            <div class="nav-label">History</div>
+        </div>
+        <div class="nav-item" data-page="settings" onclick="switchPage('settings')">
+            <div class="nav-icon">⚙️</div>
+            <div class="nav-label">Settings</div>
+        </div>
+    </nav>
 </div>
 
 <!-- ── TAG MODAL ── -->
 <div class="overlay" id="tag-modal" style="display:none;" onclick="closeModalOutside(event)">
     <div class="modal">
+        <div class="modal-handle"></div>
         <h3>Create a custom tag</h3>
         <label>Name</label>
-        <input type="text" id="new-tag-name" placeholder="e.g. Eating Out" />
+        <input type="text" id="new-tag-name" placeholder="e.g. Eating Out" style="margin-bottom:4px;" />
         <label style="margin-top:14px;display:block;">Color</label>
         <div class="color-grid" id="color-grid"></div>
         <div class="modal-btns">
@@ -415,7 +662,6 @@ create policy "open" on transactions for all using (true) with check (true);</pr
 <div id="toast"></div>
 
 <script>
-// ── CONSTANTS ─────────────────────────────────────────────────
 const PALETTE = ['#f97316','#ef4444','#f59e0b','#10b981','#06b6d4','#3b82f6','#8b5cf6','#ec4899','#64748b','#14b8a6','#a3e635','#fb7185'];
 const DEFAULT_TAGS = [
     { name: 'Food', color: '#f97316' },
@@ -428,20 +674,26 @@ const DEFAULT_TAGS = [
     { name: 'Other', color: '#64748b' },
 ];
 
-// ── STATE ─────────────────────────────────────────────────────
-let sb = null;
-let currentUser = null;
-let tags = [];
-let transactions = [];
-let selectedTag = null;
-let newTagColor = PALETTE[0];
-let currentMonth = new Date();
-let isSignUp = false;
+const PAGE_TITLES = { home: 'Finance', add: 'Add Expense', breakdown: 'Breakdown', txs: 'History', settings: 'Settings' };
 
-// ── SCREENS ───────────────────────────────────────────────────
+let sb = null, currentUser = null, tags = [], transactions = [];
+let selectedTag = null, newTagColor = PALETTE[0], currentMonth = new Date(), isSignUp = false;
+let currentPage = 'home';
+
+// ── SCREENS ──────────────────────────────────────────────────
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+}
+
+// ── PAGE NAV ─────────────────────────────────────────────────
+function switchPage(page) {
+    currentPage = page;
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === page));
+    document.getElementById('page-title').textContent = PAGE_TITLES[page];
+    document.getElementById('month-ctrl').style.display = (page === 'settings' || page === 'add') ? 'none' : 'flex';
 }
 
 // ── SETUP ─────────────────────────────────────────────────────
@@ -458,7 +710,6 @@ async function saveConfig() {
     try {
         const { createClient } = supabase;
         sb = createClient(url, key);
-        // test connection
         const { error } = await sb.from('users').select('id').limit(1);
         if (error) throw error;
         localStorage.setItem('sb_url', url);
@@ -470,12 +721,10 @@ async function saveConfig() {
     }
 }
 
-// ── HASH (simple SHA-256) ─────────────────────────────────────
+// ── HASH ──────────────────────────────────────────────────────
 async function hashPassword(password) {
-    const msgBuffer = new TextEncoder().encode(password);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
 // ── AUTH ──────────────────────────────────────────────────────
@@ -493,30 +742,25 @@ async function handleAuth() {
     const username = document.getElementById('login-username').value.trim().toLowerCase();
     const password = document.getElementById('login-password').value;
     const confirm  = document.getElementById('login-confirm').value;
-    const err      = document.getElementById('login-err');
-    const btn      = document.getElementById('login-btn');
+    const err = document.getElementById('login-err');
+    const btn = document.getElementById('login-btn');
 
     if (!username || !password) { err.textContent = 'Enter username and password.'; return; }
     if (isSignUp && password !== confirm) { err.textContent = 'Passwords do not match.'; return; }
-    if (isSignUp && password.length < 6)  { err.textContent = 'Password must be at least 6 characters.'; return; }
+    if (isSignUp && password.length < 6)  { err.textContent = 'Min 6 characters.'; return; }
 
     btn.disabled = true;
-    btn.textContent = isSignUp ? 'Creating account...' : 'Signing in...';
+    btn.textContent = isSignUp ? 'Creating...' : 'Signing in...';
     err.textContent = '';
 
     const hash = await hashPassword(password);
 
     if (isSignUp) {
-        // Check username taken
         const { data: existing } = await sb.from('users').select('id').eq('username', username).single();
-        if (existing) { err.textContent = 'Username already taken.'; btn.disabled = false; btn.textContent = 'Sign Up'; return; }
-
+        if (existing) { err.textContent = 'Username taken.'; btn.disabled = false; btn.textContent = 'Sign Up'; return; }
         const { data: newUser, error } = await sb.from('users').insert({ username, password_hash: hash }).select().single();
         if (error) { err.textContent = error.message; btn.disabled = false; btn.textContent = 'Sign Up'; return; }
-
-        // Seed default tags
         await sb.from('tags').insert(DEFAULT_TAGS.map(t => ({ ...t, user_id: newUser.id })));
-
         currentUser = newUser;
     } else {
         const { data: user, error } = await sb.from('users').select('*').eq('username', username).eq('password_hash', hash).single();
@@ -524,18 +768,15 @@ async function handleAuth() {
         currentUser = user;
     }
 
-    // Save session
     localStorage.setItem('ft_user_id', currentUser.id);
     localStorage.setItem('ft_username', currentUser.username);
-
     btn.disabled = false;
     btn.textContent = isSignUp ? 'Sign Up' : 'Sign In';
     await initApp();
 }
 
 function logout() {
-    currentUser = null;
-    tags = []; transactions = []; selectedTag = null;
+    currentUser = null; tags = []; transactions = []; selectedTag = null;
     localStorage.removeItem('ft_user_id');
     localStorage.removeItem('ft_username');
     showScreen('login-screen');
@@ -547,9 +788,11 @@ function logout() {
 async function initApp() {
     showScreen('app-screen');
     document.getElementById('topbar-sub').textContent = '@' + currentUser.username;
+    document.getElementById('settings-username').textContent = '@' + currentUser.username;
     updateMonthLabel();
     await loadTags();
     renderTagPicker();
+    renderTagSettings();
     await loadTransactions();
     renderAll();
 }
@@ -562,9 +805,10 @@ async function loadTags() {
 async function loadTransactions() {
     const y = currentMonth.getFullYear();
     const m = String(currentMonth.getMonth() + 1).padStart(2, '0');
-    const from = `${y}-${m}-01T00:00:00`;
     const lastDay = new Date(y, currentMonth.getMonth() + 1, 0).getDate();
-    const to = `${y}-${m}-${String(lastDay).padStart(2, '0')}T23:59:59`;
+    const from = `${y}-${m}-01T00:00:00`;
+    const to   = `${y}-${m}-${String(lastDay).padStart(2,'0')}T23:59:59`;
+
     const { data, error } = await sb
         .from('transactions')
         .select('*, tags(id, name, color)')
@@ -572,6 +816,7 @@ async function loadTransactions() {
         .gte('created_at', from)
         .lte('created_at', to)
         .order('created_at', { ascending: false });
+
     if (!error) transactions = data;
 }
 
@@ -596,7 +841,8 @@ async function addTransaction() {
     renderTagPicker();
     await loadTransactions();
     renderAll();
-    toast('Transaction added ✓');
+    toast('Added ✓');
+    switchPage('home');
 }
 
 async function deleteTransaction(id) {
@@ -616,6 +862,7 @@ async function createTag() {
     tags.push(data);
     closeModal();
     renderTagPicker();
+    renderTagSettings();
     toast(`"${name}" created ✓`);
 }
 
@@ -632,7 +879,7 @@ function updateMonthLabel() {
 }
 
 // ── RENDER ────────────────────────────────────────────────────
-function renderAll() { renderStats(); renderBreakdown(); renderTransactions(); }
+function renderAll() { renderStats(); renderBreakdown(); renderTransactions(); renderHomeRecent(); }
 
 function renderStats() {
     const total = transactions.reduce((s, t) => s + parseFloat(t.amount), 0);
@@ -648,47 +895,198 @@ function renderStats() {
     document.getElementById('s-count').textContent   = `${count} transaction${count !== 1 ? 's' : ''}`;
     document.getElementById('s-avg').textContent     = avg > 0 ? fmt(avg) : '—';
     document.getElementById('s-top').textContent     = top ? top[0] : '—';
-    document.getElementById('s-top-amt').textContent = top ? fmt(top[1]) + ' spent' : 'no data yet';
+    document.getElementById('s-top-amt').textContent = top ? fmt(top[1]) + ' spent' : 'no data';
+}
+
+function renderHomeRecent() {
+    const el = document.getElementById('home-tx-list');
+    const recent = transactions.slice(0, 5);
+    if (!recent.length) { el.innerHTML = `<div class="empty-msg">No transactions yet.</div>`; return; }
+    el.innerHTML = recent.map(tx => txHTML(tx)).join('');
 }
 
 function renderBreakdown() {
-    const el = document.getElementById('breakdown');
-    if (!transactions.length) { el.innerHTML = `<div class="empty-msg">No transactions this month yet.</div>`; return; }
+    const el = document.getElementById('breakdown-content');
+    if (!transactions.length) {
+        el.innerHTML = `<div class="empty-msg" style="margin-top:40px;">No transactions this month.</div>`;
+        return;
+    }
+
+    // Build tag data
     const byTag = {};
     transactions.forEach(t => {
         const key = t.tags?.name || 'Other', color = t.tags?.color || '#64748b';
-        if (!byTag[key]) byTag[key] = { amount: 0, color };
+        if (!byTag[key]) byTag[key] = { amount: 0, color, count: 0 };
         byTag[key].amount += parseFloat(t.amount);
+        byTag[key].count++;
     });
     const total = Object.values(byTag).reduce((s, v) => s + v.amount, 0);
-    el.innerHTML = Object.entries(byTag).sort(([,a],[,b]) => b.amount - a.amount).map(([name, { amount, color }]) => {
-        const pct = total ? (amount / total * 100) : 0;
-        return `<div class="bd-row">
-            <div class="bd-dot" style="background:${color}"></div>
-            <div class="bd-name">${esc(name)}</div>
-            <div class="bd-bar-wrap"><div class="bd-bar" style="width:${pct}%;background:${color}"></div></div>
-            <div class="bd-pct">${pct.toFixed(0)}%</div>
-            <div class="bd-amt">${fmt(amount)}</div>
-        </div>`;
-    }).join('');
+    const sorted = Object.entries(byTag).sort(([,a],[,b]) => b.amount - a.amount);
+
+    // Daily spending data
+    const byDay = {};
+    transactions.forEach(t => {
+        const d = new Date(t.created_at).getDate();
+        byDay[d] = (byDay[d] || 0) + parseFloat(t.amount);
+    });
+    const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
+    const maxDay = Math.max(...Object.values(byDay), 1);
+    const now = new Date();
+    const daysElapsed = (now.getFullYear() === currentMonth.getFullYear() && now.getMonth() === currentMonth.getMonth())
+        ? now.getDate() : daysInMonth;
+
+    // PIE CHART
+    let pieSlices = '';
+    let angle = -90;
+    sorted.forEach(([name, { amount, color }]) => {
+        const pct = amount / total;
+        const deg = pct * 360;
+        const rad1 = (angle * Math.PI) / 180;
+        const rad2 = ((angle + deg) * Math.PI) / 180;
+        const x1 = 50 + 44 * Math.cos(rad1), y1 = 50 + 44 * Math.sin(rad1);
+        const x2 = 50 + 44 * Math.cos(rad2), y2 = 50 + 44 * Math.sin(rad2);
+        const large = deg > 180 ? 1 : 0;
+        pieSlices += `<path d="M50,50 L${x1.toFixed(2)},${y1.toFixed(2)} A44,44 0 ${large},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${color}" stroke="#090d16" stroke-width="1.5"/>`;
+        angle += deg;
+    });
+
+    // BAR CHART (daily) — fixed width grid: 300 wide, bars fill evenly
+    const chartW = 300;
+    const chartH = 80;
+    const gap = 2;
+    const barW = Math.max(3, Math.floor((chartW - gap * (daysInMonth - 1)) / daysInMonth));
+    const totalBarW = daysInMonth * barW + (daysInMonth - 1) * gap;
+    let bars = '';
+    for (let d = 1; d <= daysInMonth; d++) {
+        const amt = byDay[d] || 0;
+        const h = amt > 0 ? Math.max(4, (amt / maxDay) * (chartH - 6)) : 0;
+        const x = (d - 1) * (barW + gap);
+        const isToday = d === now.getDate() && now.getMonth() === currentMonth.getMonth() && now.getFullYear() === currentMonth.getFullYear();
+        bars += `<rect x="${x}" y="${chartH - h}" width="${barW}" height="${h}" rx="1.5"
+            fill="${isToday ? '#4a7feb' : (amt > 0 ? '#2a3a5e' : 'transparent')}">
+            <title>${d}: ${amt > 0 ? fmt(amt) : 'nothing'}</title>
+        </rect>`;
+        if (isToday && h === 0) {
+            bars += `<rect x="${x}" y="${chartH - 3}" width="${barW}" height="3" rx="1.5" fill="#4a7feb" opacity="0.4"/>`;
+        }
+    }
+
+    // BIGGEST SINGLE EXPENSE
+    const biggest = [...transactions].sort((a,b) => parseFloat(b.amount) - parseFloat(a.amount))[0];
+
+    // INSIGHTS
+    const avgTx = total / transactions.length;
+    const spendingDays = Object.keys(byDay).length;
+
+    el.innerHTML = `
+        <div style="margin-top:8px;">
+
+            <!-- PIE + LEGEND -->
+            <div class="insight-card" style="display:flex;align-items:center;gap:16px;padding:16px;">
+                <svg viewBox="0 0 100 100" style="width:110px;height:110px;flex-shrink:0;">
+                    ${pieSlices}
+                    <circle cx="50" cy="50" r="22" fill="#090d16"/>
+                    <text x="50" y="47" text-anchor="middle" fill="#e8ecf5" font-size="9" font-weight="700" font-family="system-ui">${fmt(total)}</text>
+                    <text x="50" y="57" text-anchor="middle" fill="#68728f" font-size="6.5" font-family="system-ui">this month</text>
+                </svg>
+                <div style="flex:1;min-width:0;">
+                    ${sorted.map(([name, { amount, color }]) => {
+                        const pct = (amount / total * 100).toFixed(0);
+                        return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+                            <div style="width:9px;height:9px;border-radius:50%;background:${color};flex-shrink:0;"></div>
+                            <div style="flex:1;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(name)}</div>
+                            <div style="font-size:11px;color:var(--muted);flex-shrink:0;">${pct}%</div>
+                        </div>`;
+                    }).join('')}
+                </div>
+            </div>
+
+            <!-- QUICK STATS ROW -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;">
+                <div class="insight-mini">
+                    <div class="insight-mini-val">${transactions.length}</div>
+                    <div class="insight-mini-lbl">Transactions</div>
+                </div>
+                <div class="insight-mini">
+                    <div class="insight-mini-val">${fmt(avgTx)}</div>
+                    <div class="insight-mini-lbl">Avg per tx</div>
+                </div>
+                <div class="insight-mini">
+                    <div class="insight-mini-val">${spendingDays}</div>
+                    <div class="insight-mini-lbl">Active days</div>
+                </div>
+            </div>
+
+            <!-- DAILY BAR CHART -->
+            <div class="insight-card" style="margin-top:10px;padding:14px 14px 10px;">
+                <div class="insight-title">Daily Spending</div>
+                <svg viewBox="0 0 ${totalBarW} ${chartH + 2}" preserveAspectRatio="none" style="width:100%;height:90px;margin-top:8px;display:block;">
+                    ${bars}
+                    <line x1="0" y1="${chartH}" x2="${totalBarW}" y2="${chartH}" stroke="#232d42" stroke-width="0.5"/>
+                </svg>
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:2px;padding:0 4px;">
+                    <span>1</span><span>${Math.ceil(daysInMonth/2)}</span><span>${daysInMonth}</span>
+                </div>
+            </div>
+
+            <!-- CATEGORY BARS -->
+            <div class="insight-card" style="margin-top:10px;">
+                <div class="insight-title" style="padding:14px 14px 10px;">By Category</div>
+                ${sorted.map(([name, { amount, color, count }]) => {
+                    const pct = total ? (amount / total * 100) : 0;
+                    return `<div class="bd-row">
+                        <div class="bd-dot" style="background:${color}"></div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                                <span style="font-size:13px;">${esc(name)}</span>
+                                <span style="font-size:13px;font-weight:600;">${fmt(amount)}</span>
+                            </div>
+                            <div style="height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;">
+                                <div style="height:100%;width:${pct}%;background:${color};border-radius:2px;"></div>
+                            </div>
+                            <div style="font-size:11px;color:var(--muted);margin-top:3px;">${count} tx · ${pct.toFixed(0)}% of total</div>
+                        </div>
+                    </div>`;
+                }).join('')}
+            </div>
+
+            <!-- BIGGEST EXPENSE -->
+            ${biggest ? `
+            <div class="insight-card" style="margin-top:10px;padding:14px;">
+                <div class="insight-title" style="margin-bottom:10px;">Biggest Expense</div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:40px;height:40px;border-radius:10px;background:${biggest.tags?.color || '#64748b'}22;display:flex;align-items:center;justify-content:center;font-size:18px;">💸</div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(biggest.purpose)}</div>
+                        <div style="font-size:12px;color:var(--muted);">${fmtDate(biggest.created_at)} · ${biggest.tags?.name || 'Untagged'}</div>
+                    </div>
+                    <div style="font-size:16px;font-weight:700;color:var(--danger);">−${fmt(biggest.amount)}</div>
+                </div>
+            </div>` : ''}
+
+            <div style="height:16px;"></div>
+        </div>
+    `;
 }
 
 function renderTransactions() {
     const el = document.getElementById('tx-list');
-    if (!transactions.length) { el.innerHTML = `<div class="empty-msg">No transactions yet — add one above.</div>`; return; }
-    el.innerHTML = transactions.map(tx => {
-        const color = tx.tags?.color || '#64748b', tagName = tx.tags?.name || 'Untagged';
-        return `<div class="tx">
-            <div class="tx-dot" style="background:${color}"></div>
-            <div class="tx-info">
-                <div class="tx-purpose">${esc(tx.purpose)}</div>
-                <div class="tx-meta">${fmtDate(tx.created_at)} · ${fmtTime(tx.created_at)}</div>
-            </div>
-            <div class="tx-badge" style="background:${color}">${esc(tagName)}</div>
-            <div class="tx-amount">−${fmt(tx.amount)}</div>
-            <button class="del-btn" onclick="deleteTransaction('${tx.id}')" title="Remove">✕</button>
-        </div>`;
-    }).join('');
+    if (!transactions.length) { el.innerHTML = `<div class="empty-msg">No transactions yet.</div>`; return; }
+    el.innerHTML = transactions.map(tx => txHTML(tx)).join('');
+}
+
+function txHTML(tx) {
+    const color = tx.tags?.color || '#64748b', tagName = tx.tags?.name || 'Untagged';
+    return `<div class="tx">
+        <div class="tx-dot" style="background:${color}"></div>
+        <div class="tx-info">
+            <div class="tx-purpose">${esc(tx.purpose)}</div>
+            <div class="tx-meta">${fmtDate(tx.created_at)} · ${fmtTime(tx.created_at)}</div>
+        </div>
+        <div class="tx-badge" style="background:${color}">${esc(tagName)}</div>
+        <div class="tx-amount">−${fmt(tx.amount)}</div>
+        <button class="del-btn" onclick="deleteTransaction('${tx.id}')">✕</button>
+    </div>`;
 }
 
 function renderTagPicker() {
@@ -702,6 +1100,37 @@ function renderTagPicker() {
         </div>`).join('') + `<div class="tag-pill new-tag" onclick="openModal()">+ New tag</div>`;
 }
 
+function renderTagSettings() {
+    const el = document.getElementById('tags-settings-list');
+    if (!el) return;
+    el.innerHTML = tags.map(tag => `
+        <div class="settings-row" style="cursor:default;">
+            <div class="settings-row-left">
+                <div class="settings-icon"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${tag.color};vertical-align:middle;"></span></div>
+                <div class="settings-label">${esc(tag.name)}</div>
+            </div>
+            <button class="loan-del-btn" onclick="deleteTag('${tag.id}', '${esc(tag.name)}')" title="Remove tag">✕</button>
+        </div>`).join('') +
+        `<div class="settings-row" onclick="openModal()">
+            <div class="settings-row-left">
+                <div class="settings-icon">➕</div>
+                <div class="settings-label" style="color:var(--accent)">Add custom tag</div>
+            </div>
+            <div class="settings-arrow">›</div>
+        </div>`;
+}
+
+async function deleteTag(id, name) {
+    if (!confirm(`Delete tag "${name}"? Transactions using it will become untagged.`)) return;
+    const { error } = await sb.from('tags').delete().eq('id', id);
+    if (error) { toast('Could not delete tag.'); return; }
+    tags = tags.filter(t => t.id !== id);
+    if (selectedTag === id) selectedTag = null;
+    renderTagPicker();
+    renderTagSettings();
+    toast(`"${name}" removed.`);
+}
+
 function selectTag(id) { selectedTag = selectedTag === id ? null : id; renderTagPicker(); }
 
 // ── MODAL ─────────────────────────────────────────────────────
@@ -712,11 +1141,11 @@ function openModal() {
         `<div class="swatch ${c === newTagColor ? 'active' : ''}" style="background:${c}" onclick="pickColor('${c}')"></div>`
     ).join('');
     document.getElementById('tag-modal').style.display = 'flex';
-    setTimeout(() => document.getElementById('new-tag-name').focus(), 50);
+    setTimeout(() => document.getElementById('new-tag-name').focus(), 100);
 }
 
 function closeModal() { document.getElementById('tag-modal').style.display = 'none'; }
-function closeModalOutside(e) { if (e.target.id === 'tag-modal') closeModal(); }
+function closeModalOutside(e) { if (e.target.classList.contains('overlay')) closeModal(); }
 function pickColor(c) { newTagColor = c; document.querySelectorAll('.swatch').forEach(el => el.classList.toggle('active', el.style.background === c)); }
 
 // ── TOAST ─────────────────────────────────────────────────────
@@ -725,7 +1154,7 @@ function toast(msg) {
     const el = document.getElementById('toast');
     el.textContent = msg; el.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
 }
 
 // ── UTILS ─────────────────────────────────────────────────────
@@ -734,38 +1163,269 @@ const fmtDate = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', m
 const fmtTime = d => new Date(d).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
 const esc     = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-document.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) addTransaction();
-    if (e.key === 'Escape') closeModal();
-});
-
 // ── BOOT ──────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
     const url = localStorage.getItem('sb_url');
     const key = localStorage.getItem('sb_key');
     updateMonthLabel();
     if (!url || !key) { showScreen('setup-screen'); return; }
-
     const { createClient } = supabase;
     sb = createClient(url, key);
-
-    // Auto-login if session saved
     const savedId = localStorage.getItem('ft_user_id');
-    const savedUsername = localStorage.getItem('ft_username');
-    if (savedId && savedUsername) {
-        const { data: user, error } = await sb.from('users').select('*').eq('id', savedId).single();
-        if (!error && user) { currentUser = user; await initApp(); return; }
+    if (savedId) {
+        const { data: user } = await sb.from('users').select('*').eq('id', savedId).single();
+        if (user) { currentUser = user; await initApp(); return; }
     }
-
     showScreen('login-screen');
 });
-</script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/finance-tracker/sw.js');
-    });
-  }
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('/finance-tracker/sw.js'));
+}
 </script>
 </body>
 </html>
+<script>
+// ── PATCH: LENDING SYSTEM ─────────────────────────────────────
+// This script patches the existing app to add a lending tab
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Wait for main app to init
+    setTimeout(patchApp, 100);
+});
+
+function patchApp() {
+    // 1. Add CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        .loan-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden; margin-bottom: 12px;
+        }
+        .loan-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 13px 14px; border-bottom: 1px solid var(--border);
+            transition: background 0.1s;
+        }
+        .loan-row:last-child { border-bottom: none; }
+        .loan-row.paid { opacity: 0.45; }
+        .loan-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--bg4); display: flex; align-items: center;
+            justify-content: center; font-size: 15px; font-weight: 700;
+            color: var(--accent); flex-shrink: 0; text-transform: uppercase;
+        }
+        .loan-info { flex: 1; min-width: 0; }
+        .loan-person { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .loan-note { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .loan-amount { font-size: 15px; font-weight: 700; color: #f59e0b; white-space: nowrap; }
+        .loan-amount.paid-amt { color: var(--success); text-decoration: line-through; }
+        .loan-actions { display: flex; gap: 6px; align-items: center; }
+        .pay-btn {
+            background: rgba(52,201,138,0.12); border: 1px solid var(--success);
+            color: var(--success); padding: 4px 10px; border-radius: 6px;
+            font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit;
+            white-space: nowrap;
+        }
+        .pay-btn:active { opacity: 0.7; }
+        .paid-badge {
+            background: rgba(52,201,138,0.12); border: 1px solid rgba(52,201,138,0.3);
+            color: var(--success); padding: 4px 10px; border-radius: 6px;
+            font-size: 11px; font-weight: 600;
+        }
+        .loan-del-btn {
+            background: none; border: none; color: var(--border);
+            cursor: pointer; font-size: 14px; padding: 4px 6px;
+            border-radius: 4px; line-height: 1; flex-shrink: 0;
+        }
+        .loan-del-btn:active { color: var(--danger); background: rgba(232,85,85,0.1); }
+        .loan-summary {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;
+        }
+        .loan-stat {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 14px;
+        }
+        .add-loan-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 16px; margin-bottom: 14px;
+        }
+        .add-loan-card .field { margin-bottom: 12px; }
+        .loan-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    `;
+    document.head.appendChild(style);
+
+    // 2. Add lending page HTML
+    const lendPage = document.createElement('div');
+    lendPage.id = 'page-lend';
+    lendPage.className = 'page';
+    lendPage.innerHTML = `
+        <div style="margin-top:8px;">
+            <!-- Summary -->
+            <div class="loan-summary">
+                <div class="loan-stat">
+                    <div class="stat-lbl">Total Lent</div>
+                    <div class="stat-val" id="l-total" style="font-size:20px;">—</div>
+                    <div class="stat-sub" id="l-count"></div>
+                </div>
+                <div class="loan-stat">
+                    <div class="stat-lbl">Pending</div>
+                    <div class="stat-val" id="l-pending" style="font-size:20px;color:#f59e0b;">—</div>
+                    <div class="stat-sub" id="l-pending-count"></div>
+                </div>
+            </div>
+
+            <!-- Add Loan -->
+            <div class="add-loan-card">
+                <div class="stat-lbl" style="margin-bottom:12px;">Lend Money</div>
+                <div class="loan-input-row">
+                    <div>
+                        <label>Person</label>
+                        <input type="text" id="loan-person" placeholder="Name" />
+                    </div>
+                    <div>
+                        <label>Amount (₹)</label>
+                        <input type="number" id="loan-amount" placeholder="0" min="0" step="1" inputmode="numeric" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Note (optional)</label>
+                    <input type="text" id="loan-note" placeholder="What for?" />
+                </div>
+                <button class="add-tx-btn" id="add-loan-btn" onclick="addLoan()">Record Loan</button>
+            </div>
+
+            <!-- Pending -->
+            <div class="section-hd">Pending</div>
+            <div class="loan-card" id="loans-pending"></div>
+
+            <!-- Paid -->
+            <div class="section-hd" style="margin-top:14px;">Paid Back</div>
+            <div class="loan-card" id="loans-paid"></div>
+        </div>
+    `;
+
+    // Insert before bottom nav
+    const nav = document.querySelector('.bottom-nav');
+    nav.parentNode.insertBefore(lendPage, nav);
+
+    // 3. Add nav item
+    const lendNavItem = document.createElement('div');
+    lendNavItem.className = 'nav-item';
+    lendNavItem.dataset.page = 'lend';
+    lendNavItem.setAttribute('onclick', "switchPage('lend')");
+    lendNavItem.innerHTML = `<div class="nav-icon">🤝</div><div class="nav-label">Lend</div>`;
+    nav.appendChild(lendNavItem);
+
+    // 4. Patch PAGE_TITLES
+    PAGE_TITLES['lend'] = 'Lending';
+
+    // 5. Patch switchPage to handle lend page
+    const origSwitch = window.switchPage;
+    window.switchPage = function(page) {
+        origSwitch(page);
+        if (page === 'lend') {
+            document.getElementById('month-ctrl').style.display = 'none';
+            loadAndRenderLoans();
+        }
+    };
+}
+
+// ── LOAN DATA ─────────────────────────────────────────────────
+let loans = [];
+
+async function loadAndRenderLoans() {
+    if (!currentUser || !sb) return;
+    const { data, error } = await sb
+        .from('loans')
+        .select('*')
+        .eq('user_id', currentUser.id)
+        .order('created_at', { ascending: false });
+    if (!error) loans = data;
+    renderLoans();
+}
+
+function renderLoans() {
+    const pending = loans.filter(l => !l.paid);
+    const paid    = loans.filter(l => l.paid);
+
+    const totalLent    = loans.reduce((s, l) => s + parseFloat(l.amount), 0);
+    const totalPending = pending.reduce((s, l) => s + parseFloat(l.amount), 0);
+
+    document.getElementById('l-total').textContent         = fmt(totalLent);
+    document.getElementById('l-count').textContent         = `${loans.length} loan${loans.length !== 1 ? 's' : ''}`;
+    document.getElementById('l-pending').textContent       = fmt(totalPending);
+    document.getElementById('l-pending-count').textContent = `${pending.length} unpaid`;
+
+    const pendingEl = document.getElementById('loans-pending');
+    const paidEl    = document.getElementById('loans-paid');
+
+    pendingEl.innerHTML = pending.length === 0
+        ? `<div class="empty-msg">No pending loans 🎉</div>`
+        : pending.map(loanHTML).join('');
+
+    paidEl.innerHTML = paid.length === 0
+        ? `<div class="empty-msg">Nothing paid back yet.</div>`
+        : paid.map(loanHTML).join('');
+}
+
+function loanHTML(loan) {
+    const initials = loan.person.trim().split(' ').map(w => w[0]).join('').slice(0,2);
+    return `
+        <div class="loan-row ${loan.paid ? 'paid' : ''}">
+            <div class="loan-avatar">${esc(initials)}</div>
+            <div class="loan-info">
+                <div class="loan-person">${esc(loan.person)}</div>
+                <div class="loan-note">${loan.note ? esc(loan.note) : (loan.paid ? '✓ Paid ' + fmtDate(loan.paid_at) : fmtDate(loan.created_at))}</div>
+            </div>
+            <div class="loan-actions">
+                <div class="loan-amount ${loan.paid ? 'paid-amt' : ''}">${fmt(loan.amount)}</div>
+                ${loan.paid
+                    ? `<div class="paid-badge">Paid</div>`
+                    : `<button class="pay-btn" onclick="markPaid('${loan.id}')">Mark Paid</button>`
+                }
+                <button class="loan-del-btn" onclick="deleteLoan('${loan.id}')">✕</button>
+            </div>
+        </div>`;
+}
+
+async function addLoan() {
+    const person = document.getElementById('loan-person').value.trim();
+    const amount = parseFloat(document.getElementById('loan-amount').value);
+    const note   = document.getElementById('loan-note').value.trim();
+
+    if (!person) { toast('Enter a name.'); return; }
+    if (!amount || amount <= 0) { toast('Enter a valid amount.'); return; }
+
+    const btn = document.getElementById('add-loan-btn');
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    const { error } = await sb.from('loans').insert({
+        user_id: currentUser.id, person, amount, note: note || null
+    });
+
+    btn.disabled = false; btn.textContent = 'Record Loan';
+    if (error) { toast('Error: ' + error.message); return; }
+
+    document.getElementById('loan-person').value = '';
+    document.getElementById('loan-amount').value = '';
+    document.getElementById('loan-note').value   = '';
+
+    await loadAndRenderLoans();
+    toast(`Loan to ${person} recorded ✓`);
+}
+
+async function markPaid(id) {
+    const { error } = await sb.from('loans').update({ paid: true, paid_at: new Date().toISOString() }).eq('id', id);
+    if (error) { toast('Error: ' + error.message); return; }
+    await loadAndRenderLoans();
+    toast('Marked as paid ✓');
+}
+
+async function deleteLoan(id) {
+    const { error } = await sb.from('loans').delete().eq('id', id);
+    if (error) { toast('Could not delete.'); return; }
+    await loadAndRenderLoans();
+    toast('Removed.');
+}
+</script>
